@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Shield, Key, Users, ScrollText, LayoutDashboard, Bell, LogOut, Menu, X, Settings, ChevronRight, AlertTriangle, Loader2, FolderOpen, FileText, Activity, Search, Building2, Send } from 'lucide-react';
+import { Shield, Key, Users, ScrollText, LayoutDashboard, Bell, LogOut, Menu, X, Settings, ChevronRight, AlertTriangle, Loader2, FolderOpen, FileText, Activity, Search, Building2, Send, Lock, BookOpen, Server, UserPlus, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { getRoleLabel, hasPermission, isAuditorRole } from '../lib/access';
 import { api } from '../lib/api';
@@ -34,6 +34,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const canManageOrganizations = hasPermission(user, 'organizations.manage');
   const canManageTerms = hasPermission(user, 'terms.manage');
   const canViewLogs = hasPermission(user, 'audit_logs.view');
+  const canViewVaults = hasPermission(user, 'vaults.view');
+  const canViewKb = hasPermission(user, 'kb.view');
+  const canViewCmdb = hasPermission(user, 'cmdb.view');
+  const canViewOnboarding = hasPermission(user, 'onboarding.view');
+  const canViewCompliance = hasPermission(user, 'compliance.view');
   const isAuditor = isAuditorRole(user?.role);
   const daysLeft = user?.password_days_left;
   const showExpBar = typeof daysLeft === 'number' && daysLeft > 0 && daysLeft <= 5;
@@ -41,6 +46,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
     ...(canViewPasswords && !isAuditor ? [{ to: '/passwords', label: 'Senhas', icon: Key, highlight: true }] : []),
     ...(!isAuditor ? [{ to: '/password-requests', label: 'Solicitacoes', icon: Send }] : []),
+    ...(canViewVaults ? [{ to: '/vaults', label: 'Cofres', icon: Lock }] : []),
+    ...(canViewKb ? [{ to: '/kb', label: 'Base Conhecimento', icon: BookOpen }] : []),
+    ...(canViewCmdb ? [{ to: '/cmdb', label: 'CMDB / TI', icon: Server }] : []),
+    ...(canViewOnboarding ? [{ to: '/onboarding', label: 'Onboarding', icon: UserPlus }] : []),
+    ...(canViewCompliance ? [{ to: '/compliance', label: 'Compliance', icon: ShieldCheck }] : []),
     ...(canViewDashboard ? [{ to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard }] : []),
     ...(canViewRealtime ? [{ to: '/admin/realtime', label: 'Tempo Real', icon: Activity }] : []),
     ...(canManageUsers ? [{ to: '/admin/users', label: 'Usuarios', icon: Users }] : []),

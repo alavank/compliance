@@ -14,6 +14,11 @@ import AuditLogs from './pages/AuditLogs';
 import Realtime from './pages/Realtime';
 import Organization from './pages/Organization';
 import PasswordRequests from './pages/PasswordRequests';
+import Vaults from './pages/Vaults';
+import KnowledgeBase from './pages/KnowledgeBase';
+import CMDB from './pages/CMDB';
+import Onboarding from './pages/Onboarding';
+import Compliance from './pages/Compliance';
 
 function PrivateRoute({ children, permission }: { children: React.ReactNode; permission?: string }) {
   const { user, loading } = useAuth();
@@ -44,6 +49,11 @@ export default function App() {
           <Route path="/admin/logs" element={<PrivateRoute permission="audit_logs.view"><AuditLogs /></PrivateRoute>} />
           <Route path="/admin/realtime" element={<PrivateRoute permission="realtime.view"><Realtime /></PrivateRoute>} />
           <Route path="/admin/organizations" element={<PrivateRoute permission="organizations.manage"><Organization /></PrivateRoute>} />
+          <Route path="/vaults" element={<PrivateRoute permission="vaults.view"><Vaults /></PrivateRoute>} />
+          <Route path="/kb" element={<PrivateRoute permission="kb.view"><KnowledgeBase /></PrivateRoute>} />
+          <Route path="/cmdb" element={<PrivateRoute permission="cmdb.view"><CMDB /></PrivateRoute>} />
+          <Route path="/onboarding" element={<PrivateRoute permission="onboarding.view"><Onboarding /></PrivateRoute>} />
+          <Route path="/compliance" element={<PrivateRoute permission="compliance.view"><Compliance /></PrivateRoute>} />
           <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
           <Route path="*" element={<HomeRedirect />} />
         </Routes>
